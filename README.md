@@ -1,1 +1,1546 @@
-# team-kashi
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تیم‌کشی حرفه‌ای فوتبال</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1a2332 40%, #0d1321 100%);
+    background-attachment: fixed;
+    display: flex; justify-content: center; align-items: flex-start;
+    padding: 20px; position: relative; overflow-x: hidden;
+  }
+  body::before, body::after {
+    content: ''; position: fixed; border-radius: 50%; filter: blur(100px);
+    opacity: 0.35; pointer-events: none; z-index: 0;
+  }
+  body::before {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #2dd4bf, transparent 70%);
+    top: -200px; right: -200px; animation: float1 14s ease-in-out infinite;
+  }
+  body::after {
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, #818cf8, transparent 70%);
+    bottom: -250px; left: -250px; animation: float2 18s ease-in-out infinite;
+  }
+  @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-60px,60px) scale(1.1);} }
+  @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(80px,-50px) scale(1.15);} }
+  .container { position: relative; z-index: 1; width: 100%; max-width: 100%; }
+  .glass {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .header { text-align: center; margin-bottom: 20px; padding: 25px 20px; }
+  .header h1 {
+    font-size: 2.2rem; font-weight: 800;
+    background: linear-gradient(135deg, #2dd4bf 0%, #818cf8 50%, #c084fc 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; margin-bottom: 8px; letter-spacing: -0.5px;
+  }
+  .header p { color: rgba(203, 213, 225, 0.6); font-size: 0.95rem; font-weight: 300; }
+  .trophy { font-size: 2.8rem; margin-bottom: 10px; display: inline-block; animation: bounce 3s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0) rotate(-5deg);} 50%{transform:translateY(-12px) rotate(5deg);} }
+  .panel { padding: 24px; margin-bottom: 20px; }
+  .panel-title {
+    font-size: 1.1rem; font-weight: 700; color: #f1f5f9; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px; padding-bottom: 14px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  }
+  .panel-title .icon { font-size: 1.3rem; }
+  textarea {
+    width: 100%; padding: 14px 16px; background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 14px; color: #f1f5f9;
+    font-size: 0.95rem; font-family: 'Vazirmatn', sans-serif; outline: none;
+    transition: all 0.25s ease; resize: vertical; min-height: 160px; line-height: 2;
+  }
+  textarea::placeholder { color: rgba(148, 163, 184, 0.4); }
+  textarea:focus {
+    border-color: rgba(45, 212, 191, 0.6); background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.15);
+  }
+  .glass-btn {
+    position: relative; padding: 12px 26px; border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.25); background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    color: #f1f5f9; font-family: 'Vazirmatn', sans-serif; font-size: 0.9rem;
+    font-weight: 600; cursor: pointer; overflow: hidden; transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .glass-btn::before {
+    content: ''; position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.6s ease;
+  }
+  .glass-btn:hover::before { left: 100%; }
+  .glass-btn:hover {
+    background: rgba(51, 65, 85, 0.7); transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  .glass-btn:active { transform: translateY(0); }
+  .glass-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .glass-btn:disabled:hover { transform: none; background: rgba(30, 41, 59, 0.6); }
+  .glass-btn.primary {
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.25), rgba(129, 140, 248, 0.25));
+    border-color: rgba(45, 212, 191, 0.4);
+  }
+  .glass-btn.primary:hover { background: linear-gradient(135deg, rgba(45, 212, 191, 0.4), rgba(129, 140, 248, 0.4)); }
+  .glass-btn.danger { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); color: #fca5a5; }
+  .glass-btn.danger:hover { background: rgba(239, 68, 68, 0.28); }
+  .glass-btn.btn-full { width: 100%; }
+
+  .parse-info {
+    display: flex; align-items: center; gap: 8px; margin-top: 12px;
+    padding: 12px 16px; background: rgba(45, 212, 191, 0.1);
+    border: 1px solid rgba(45, 212, 191, 0.25); border-radius: 12px;
+    font-size: 0.85rem; color: #5eead4;
+  }
+  .step-panel { display: none; }
+  .step-panel.active { display: block; animation: fadeUp 0.5s ease; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+  .step-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+  }
+  .progress-info {
+    font-size: 0.88rem; color: rgba(203, 213, 225, 0.7);
+    padding: 8px 16px; background: rgba(30, 41, 59, 0.5);
+    border-radius: 12px; border: 1px solid rgba(148, 163, 184, 0.15);
+  }
+  .progress-info strong { color: #2dd4bf; }
+  .progress-bar-outer {
+    height: 6px; background: rgba(148, 163, 184, 0.15);
+    border-radius: 10px; overflow: hidden; margin-bottom: 22px;
+  }
+  .progress-bar-inner {
+    height: 100%; background: linear-gradient(90deg, #2dd4bf, #818cf8);
+    border-radius: 10px; transition: width 0.5s ease; width: 0%;
+  }
+  .current-player-card {
+    padding: 24px; border-radius: 20px; margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.1), rgba(129, 140, 248, 0.1));
+    border: 1px solid rgba(45, 212, 191, 0.25); text-align: center;
+  }
+  .current-avatar {
+    width: 65px; height: 65px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.7rem; margin: 0 auto 14px;
+    background: linear-gradient(135deg, #2dd4bf, #818cf8);
+    color: #0f172a; box-shadow: 0 8px 24px rgba(45, 212, 191, 0.3);
+  }
+  .current-name { font-size: 1.3rem; font-weight: 800; color: #f1f5f9; margin-bottom: 6px; }
+  .current-index { font-size: 0.82rem; color: rgba(203, 213, 225, 0.6); margin-bottom: 20px; }
+  .skill-options {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px;
+  }
+  @media (max-width: 600px) { .skill-options { grid-template-columns: repeat(3, 1fr); } }
+  .skill-option {
+    padding: 14px 8px; border-radius: 14px; cursor: pointer;
+    border: 2px solid rgba(148, 163, 184, 0.15); background: rgba(30, 41, 59, 0.4);
+    transition: all 0.25s ease; text-align: center; user-select: none;
+  }
+  .skill-option:hover { background: rgba(51, 65, 85, 0.5); transform: translateY(-3px); }
+  .skill-option.selected {
+    border-color: rgba(45, 212, 191, 0.8); background: rgba(45, 212, 191, 0.15);
+    box-shadow: 0 0 24px rgba(45, 212, 191, 0.25); transform: translateY(-3px);
+  }
+  .skill-option .stars { font-size: 0.95rem; margin-bottom: 5px; letter-spacing: 1px; }
+  .skill-option .label { font-size: 0.75rem; font-weight: 700; color: #f1f5f9; }
+  .skill-option[data-skill="1"] .stars { color: #fca5a5; }
+  .skill-option[data-skill="2"] .stars { color: #fdba74; }
+  .skill-option[data-skill="3"] .stars { color: #fde047; }
+  .skill-option[data-skill="4"] .stars { color: #6ee7b7; }
+  .skill-option[data-skill="5"] .stars { color: #7dd3fc; }
+  .gk-checkbox-row {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 12px; background: rgba(253, 224, 71, 0.06);
+    border: 1px solid rgba(253, 224, 71, 0.2); border-radius: 14px;
+    cursor: pointer; user-select: none; transition: all 0.2s ease; margin-bottom: 18px;
+  }
+  .gk-checkbox-row:hover { background: rgba(253, 224, 71, 0.1); }
+  .gk-checkbox-row.checked {
+    background: rgba(253, 224, 71, 0.15); border-color: rgba(253, 224, 71, 0.5);
+  }
+  .gk-checkbox-row input { width: 18px; height: 18px; accent-color: #fde047; cursor: pointer; margin: 0; }
+  .gk-checkbox-row label { font-size: 0.88rem; color: rgba(241, 245, 249, 0.85); font-weight: 600; cursor: pointer; margin: 0; }
+  .step-actions { display: flex; gap: 12px; }
+  .step-actions .glass-btn { flex: 1; }
+  .chip-list {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
+    padding-top: 18px; border-top: 1px solid rgba(148, 163, 184, 0.15);
+  }
+  .chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 10px; font-size: 0.78rem;
+    background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(148, 163, 184, 0.15);
+    color: rgba(203, 213, 225, 0.7); cursor: pointer; transition: all 0.2s ease;
+  }
+  .chip:hover { background: rgba(51, 65, 85, 0.6); }
+  .chip.done { background: rgba(45, 212, 191, 0.12); border-color: rgba(45, 212, 191, 0.3); color: #5eead4; }
+  .chip.current { background: rgba(129, 140, 248, 0.2); border-color: rgba(129, 140, 248, 0.5); color: #a5b4fc; font-weight: 700; }
+  .chip .chip-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .main-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 20px;
+    margin-bottom: 20px; align-items: start;
+  }
+  @media (max-width: 920px) { .main-grid { grid-template-columns: 1fr; } .header h1 { font-size: 1.8rem; } }
+  .player-list { max-height: 500px; overflow-y: auto; padding-left: 5px; margin-bottom: 15px; }
+  .player-list::-webkit-scrollbar { width: 6px; }
+  .player-list::-webkit-scrollbar-track { background: rgba(148, 163, 184, 0.05); border-radius: 10px; }
+  .player-list::-webkit-scrollbar-thumb { background: rgba(45, 212, 191, 0.4); border-radius: 10px; }
+  .player-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px; margin-bottom: 8px; background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(148, 163, 184, 0.1); border-radius: 12px;
+    transition: all 0.25s ease; animation: slideIn 0.3s ease; gap: 8px;
+  }
+  @keyframes slideIn { from{opacity:0;transform:translateX(20px);} to{opacity:1;transform:translateX(0);} }
+  .player-item:hover { background: rgba(51, 65, 85, 0.5); border-color: rgba(148, 163, 184, 0.25); }
+  .player-item.gk-item { background: rgba(253, 224, 71, 0.06); border-color: rgba(253, 224, 71, 0.2); }
+  .player-item.dragging { opacity: 0.4; border-color: rgba(45, 212, 191, 0.6); }
+  .player-item.drag-over { border-color: rgba(45, 212, 191, 0.8); background: rgba(45, 212, 191, 0.1); }
+  .player-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+  .player-avatar {
+    width: 36px; height: 36px; border-radius: 10px; display: flex;
+    align-items: center; justify-content: center; font-weight: 700;
+    font-size: 0.85rem; flex-shrink: 0; color: #0f172a;
+  }
+  .player-avatar.gk { background: linear-gradient(135deg, #fde047, #f59e0b) !important; }
+  .player-name {
+    font-weight: 600; color: #f1f5f9; font-size: 0.9rem;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .player-order { font-size: 0.7rem; color: rgba(148, 163, 184, 0.5); font-weight: 500; min-width: 18px; text-align: center; }
+  .drag-handle {
+    cursor: grab; color: rgba(148, 163, 184, 0.4); font-size: 1.1rem;
+    padding: 0 4px; user-select: none; flex-shrink: 0; transition: color 0.2s;
+  }
+  .drag-handle:hover { color: rgba(203, 213, 225, 0.8); }
+  .drag-handle:active { cursor: grabbing; }
+  .skill-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 6px;
+    font-size: 0.7rem; font-weight: 600; margin-right: 6px;
+  }
+  .level-1 { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+  .level-2 { background: rgba(249, 115, 22, 0.2); color: #fdba74; }
+  .level-3 { background: rgba(253, 224, 71, 0.2); color: #fde047; }
+  .level-4 { background: rgba(52, 211, 153, 0.2); color: #6ee7b7; }
+  .level-5 { background: rgba(56, 189, 248, 0.2); color: #7dd3fc; }
+  .gk-badge { background: rgba(253, 224, 71, 0.25); color: #fde047; }
+  .remove-btn {
+    width: 28px; height: 28px; border-radius: 8px;
+    border: 1px solid rgba(239, 68, 68, 0.25); background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5; cursor: pointer; font-size: 0.9rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease; flex-shrink: 0;
+  }
+  .remove-btn:hover { background: rgba(239, 68, 68, 0.3); transform: scale(1.1); }
+  .counter {
+    text-align: center; padding: 10px; font-size: 0.85rem;
+    color: rgba(203, 213, 225, 0.6); margin-bottom: 10px;
+  }
+  .counter strong { color: #2dd4bf; font-weight: 700; }
+  .teams-section { display: none; margin-top: 5px; }
+  .teams-section.active { display: block; animation: fadeUp 0.5s ease; }
+  .teams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .teams-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 900px) { .teams-grid, .teams-grid.three { grid-template-columns: 1fr; } }
+  .team-card { padding: 18px; position: relative; overflow: hidden; }
+  .team-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 4px; border-radius: 24px 24px 0 0;
+  }
+  .team-card.team-a::before { background: linear-gradient(90deg, #2dd4bf, #38bdf8); }
+  .team-card.team-b::before { background: linear-gradient(90deg, #c084fc, #f472b6); }
+  .team-card.team-c::before { background: linear-gradient(90deg, #fbbf24, #fb923c); }
+  .team-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15); flex-wrap: wrap; gap: 8px;
+  }
+  .team-name { font-size: 1.05rem; font-weight: 800; }
+  .team-a .team-name { color: #2dd4bf; }
+  .team-b .team-name { color: #c084fc; }
+  .team-c .team-name { color: #fbbf24; }
+  .team-stats { font-size: 0.7rem; color: rgba(203, 213, 225, 0.6); text-align: left; line-height: 1.5; }
+  .team-stats strong { color: rgba(241, 245, 249, 0.9); }
+  .team-players { min-height: 50px; border-radius: 12px; padding: 4px; transition: background 0.2s ease; }
+  .team-players.drop-target { background: rgba(45, 212, 191, 0.08); border: 2px dashed rgba(45, 212, 191, 0.4); }
+  .team-player {
+    display: flex; align-items: center; padding: 8px 10px; margin-bottom: 6px;
+    background: rgba(30, 41, 59, 0.5); border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.1); cursor: grab;
+    transition: all 0.2s ease; animation: slideIn 0.35s ease; gap: 8px;
+  }
+  .team-player:hover {
+    background: rgba(51, 65, 85, 0.6); border-color: rgba(148, 163, 184, 0.25);
+    transform: translateX(-2px);
+  }
+  .team-player.dragging { opacity: 0.4; border-color: rgba(45, 212, 191, 0.6); }
+  .team-player:active { cursor: grabbing; }
+  .team-player .player-avatar { width: 30px; height: 30px; font-size: 0.75rem; margin-left: 6px; }
+  .team-player .player-name { flex: 1; font-size: 0.85rem; }
+  .empty-state { text-align: center; padding: 40px 20px; color: rgba(148, 163, 184, 0.4); }
+  .empty-state .big-icon { font-size: 3rem; margin-bottom: 15px; opacity: 0.5; }
+  .empty-state p { font-size: 0.9rem; }
+  .empty-team {
+    text-align: center; padding: 18px; color: rgba(148, 163, 184, 0.35);
+    font-size: 0.8rem; border: 2px dashed rgba(148, 163, 184, 0.1); border-radius: 12px;
+  }
+  .toast {
+    position: fixed; top: 30px; left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    padding: 12px 24px; background: rgba(45, 212, 191, 0.15);
+    backdrop-filter: blur(20px); border: 1px solid rgba(45, 212, 191, 0.4);
+    border-radius: 14px; color: #5eead4; font-weight: 600; font-size: 0.85rem;
+    z-index: 1000; transition: transform 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
+  .divider {
+    height: 1px; background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.15), transparent);
+    margin: 18px 0;
+  }
+  .balance-bar {
+    margin-top: 16px; padding: 12px 16px; background: rgba(30, 41, 59, 0.4);
+    border-radius: 14px; border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+  .balance-bar-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(203, 213, 225, 0.6); margin-bottom: 8px; }
+  .balance-track { height: 8px; background: rgba(148, 163, 184, 0.15); border-radius: 10px; overflow: hidden; display: flex; }
+  .balance-fill-a { background: linear-gradient(90deg, #2dd4bf, #38bdf8); border-radius: 10px 0 0 10px; transition: width 0.6s ease; }
+  .balance-fill-b { background: linear-gradient(90deg, #c084fc, #f472b6); border-radius: 0 10px 10px 0; transition: width 0.6s ease; }
+  .balance-status { margin-top: 8px; font-size: 0.75rem; text-align: center; color: rgba(203, 213, 225, 0.6); }
+  .balance-status.good { color: #2dd4bf; }
+  .balance-status.warn { color: #fdba74; }
+  .chart-panel { padding: 24px; margin-bottom: 20px; }
+  .chart-wrap { position: relative; height: 200px; padding: 10px 10px 0 10px; margin-top: 10px; }
+  .chart-bars {
+    display: flex; align-items: flex-end; justify-content: space-around;
+    height: 160px; gap: 10px; border-bottom: 1px solid rgba(148, 163, 184, 0.15); padding: 0 5px;
+  }
+  .chart-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; position: relative; max-width: 90px; }
+  .chart-bar {
+    width: 100%; max-width: 55px; border-radius: 8px 8px 0 0;
+    transition: height 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative; min-height: 4px; display: flex; align-items: flex-start; justify-content: center;
+  }
+  .chart-bar-count { position: absolute; top: -20px; font-size: 0.75rem; font-weight: 700; color: #f1f5f9; }
+  .chart-bar-1 { background: linear-gradient(to top, #dc2626, #f87171); box-shadow: 0 0 16px rgba(248,113,113,0.3); }
+  .chart-bar-2 { background: linear-gradient(to top, #ea580c, #fb923c); box-shadow: 0 0 16px rgba(251,146,60,0.3); }
+  .chart-bar-3 { background: linear-gradient(to top, #ca8a04, #fde047); box-shadow: 0 0 16px rgba(253,224,71,0.3); }
+  .chart-bar-4 { background: linear-gradient(to top, #059669, #6ee7b7); box-shadow: 0 0 16px rgba(110,231,183,0.3); }
+  .chart-bar-5 { background: linear-gradient(to top, #0284c7, #7dd3fc); box-shadow: 0 0 16px rgba(125,211,252,0.3); }
+  .chart-x-label { margin-top: 8px; font-size: 0.7rem; color: rgba(203, 213, 225, 0.6); text-align: center; white-space: nowrap; font-weight: 500; }
+  .chart-x-stars { font-size: 0.65rem; color: rgba(203, 213, 225, 0.4); margin-top: 2px; }
+  .chart-empty { text-align: center; padding: 40px 20px; color: rgba(148, 163, 184, 0.4); }
+  .skill-summary { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .skill-summary-card {
+    flex: 1; min-width: 130px; padding: 12px 14px;
+    background: rgba(30, 41, 59, 0.4); border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.1); text-align: center;
+  }
+  .skill-summary-card .label { font-size: 0.7rem; color: rgba(203, 213, 225, 0.5); margin-bottom: 6px; }
+  .skill-summary-card .value { font-size: 1.15rem; font-weight: 800; }
+  .skill-summary-card .value.strong { color: #6ee7b7; }
+  .skill-summary-card .value.weak { color: #fca5a5; }
+  .skill-summary-card .value.avg { color: #fdba74; }
+  .chart-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  .chart-subtitle { font-size: 0.72rem; color: rgba(203, 213, 225, 0.5); }
+  .roster-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .drag-hint {
+    font-size: 0.7rem; color: rgba(203, 213, 225, 0.4); text-align: center;
+    padding: 8px; background: rgba(30, 41, 59, 0.3); border-radius: 10px; margin-bottom: 10px;
+  }
+  .teams-count-selector {
+    display: flex; gap: 8px; margin-bottom: 12px; align-items: center;
+    padding: 10px 14px; background: rgba(30, 41, 59, 0.4);
+    border-radius: 12px; border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+  .teams-count-selector .label { font-size: 0.8rem; color: rgba(203, 213, 225, 0.7); margin-left: 8px; }
+  .count-btn {
+    padding: 6px 14px; border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(30, 41, 59, 0.4); color: rgba(203, 213, 225, 0.7);
+    font-size: 0.8rem; font-weight: 700; cursor: pointer;
+    transition: all 0.2s ease; font-family: 'Vazirmatn', sans-serif;
+  }
+  .count-btn:hover { background: rgba(51, 65, 85, 0.5); color: #f1f5f9; }
+  .count-btn.active {
+    background: rgba(129, 140, 248, 0.25); border-color: rgba(129, 140, 248, 0.6); color: #a5b4fc;
+  }
+  .team-mode-row { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .mode-btn {
+    flex: 1; min-width: 100px; padding: 8px 12px; border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.15); background: rgba(30, 41, 59, 0.4);
+    color: rgba(203, 213, 225, 0.7); font-size: 0.75rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s ease; font-family: 'Vazirmatn', sans-serif;
+    text-align: center;
+  }
+  .mode-btn:hover { background: rgba(51, 65, 85, 0.5); color: #f1f5f9; }
+  .mode-btn.active {
+    background: rgba(45, 212, 191, 0.18); border-color: rgba(45, 212, 191, 0.5);
+    color: #5eead4; box-shadow: 0 0 16px rgba(45, 212, 191, 0.15);
+  }
+  .gk-box {
+    margin-top: 16px; padding: 16px; background: rgba(253, 224, 71, 0.06);
+    border: 1px solid rgba(253, 224, 71, 0.2); border-radius: 16px;
+  }
+  .gk-box-title { font-size: 0.9rem; font-weight: 700; color: #fde047; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .gk-list { display: flex; gap: 10px; flex-wrap: wrap; }
+  .gk-chip {
+    display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+    background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(253, 224, 71, 0.2);
+    border-radius: 10px; font-size: 0.82rem; font-weight: 600; color: #f1f5f9;
+  }
+  .gk-chip .player-avatar { width: 26px; height: 26px; font-size: 0.7rem; }
+  .text-output-panel { padding: 24px; margin-top: 20px; display: none; }
+  .text-output-panel.active { display: block; animation: fadeUp 0.5s ease; }
+  .text-output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+  .text-output {
+    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 14px; padding: 20px; font-family: 'Vazirmatn', monospace;
+    font-size: 0.92rem; line-height: 2; color: #e2e8f0;
+    white-space: pre-wrap; word-break: break-word; max-height: 500px; overflow-y: auto;
+  }
+  .text-output::-webkit-scrollbar { width: 6px; }
+  .text-output::-webkit-scrollbar-track { background: rgba(148, 163, 184, 0.05); border-radius: 10px; }
+  .text-output::-webkit-scrollbar-thumb { background: rgba(45, 212, 191, 0.4); border-radius: 10px; }
+  .text-output .team-line { color: #2dd4bf; font-weight: 700; font-size: 1rem; }
+  .text-output .gk-line { color: #fde047; font-weight: 700; }
+  .copy-btn {
+    padding: 9px 18px; border-radius: 10px; border: 1px solid rgba(45, 212, 191, 0.4);
+    background: rgba(45, 212, 191, 0.15); color: #5eead4;
+    font-family: 'Vazirmatn', sans-serif; font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .copy-btn:hover { background: rgba(45, 212, 191, 0.3); transform: translateY(-1px); }
+  .hidden { display: none !important; }
+  .manual-add-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .manual-input {
+    flex: 2; min-width: 120px; padding: 9px 12px;
+    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 10px; color: #f1f5f9; font-family: 'Vazirmatn', sans-serif;
+    font-size: 0.85rem; outline: none; transition: all 0.2s ease;
+  }
+  .manual-input:focus { border-color: rgba(45, 212, 191, 0.6); background: rgba(15, 23, 42, 0.8); }
+  .manual-select {
+    flex: 1; min-width: 100px; padding: 9px 12px;
+    background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 10px; color: #f1f5f9; font-family: 'Vazirmatn', sans-serif;
+    font-size: 0.85rem; outline: none; cursor: pointer;
+  }
+  .manual-select option { background: #1e293b; color: #f1f5f9; }
+  .preview-names {
+    margin-top: 12px; max-height: 180px; overflow-y: auto;
+    background: rgba(15, 23, 42, 0.4); border-radius: 12px; padding: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+  .preview-names::-webkit-scrollbar { width: 5px; }
+  .preview-names::-webkit-scrollbar-thumb { background: rgba(45, 212, 191, 0.4); border-radius: 10px; }
+  .preview-name-item {
+    display: inline-block; padding: 5px 10px; margin: 3px;
+    background: rgba(45, 212, 191, 0.1); border: 1px solid rgba(45, 212, 191, 0.25);
+    border-radius: 8px; font-size: 0.75rem; color: #5eead4;
+  }
+  .preview-name-item .num { color: rgba(203, 213, 225, 0.5); margin-left: 5px; font-weight: 400; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header glass">
+    <div class="trophy">🏆</div>
+    <h1>تیم‌کشی حرفه‌ای فوتبال</h1>
+    <p>لیست بازیکنان را وارد کنید، سطح هر نفر را مشخص کنید و تیم‌ها را بسازید</p>
+  </div>
+
+  <!-- ===== STEP 1 ===== -->
+  <div class="step-panel active" id="step1">
+    <div class="panel glass">
+      <div class="panel-title">
+        <span class="icon">📋</span>
+        مرحله ۱: لیست بازیکنان را وارد کنید
+      </div>
+
+      <p style="color: rgba(203, 213, 225, 0.6); font-size: 0.85rem; margin-bottom: 12px; line-height: 1.8;">
+        هر اسم را در یک خط جدا بنویسید. شماره‌گذاری اختیاری است و خودکار حذف می‌شود.
+      </p>
+
+      <textarea id="namesInput" placeholder="مثال:
+
+محسن علوی
+بردیا
+کاظم
+فرهام
+پارسا
+امیر علی
+مهدی قربانی
+سید مهدی
+علی کریمی
+امیرحسین احمدی
+میثم
+فرشاد"></textarea>
+
+      <div class="parse-info" id="parseInfo" style="display:none;">
+        <span>✓</span>
+        <span id="parseInfoText">۰ بازیکن شناسایی شد</span>
+      </div>
+
+      <div class="preview-names" id="previewNames" style="display:none;"></div>
+
+      <button class="glass-btn primary btn-full" id="parseBtn" style="margin-top: 16px;">
+        ➡️ ادامه و تعیین سطح بازیکنان
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2 ===== -->
+  <div class="step-panel" id="step2">
+    <div class="panel glass">
+      <div class="step-header">
+        <div class="panel-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">
+          <span class="icon">⭐</span>
+          مرحله ۲: تعیین سطح بازیکنان
+        </div>
+        <div class="progress-info">
+          <strong id="progressText">۰ از ۰</strong> مشخص شد
+        </div>
+      </div>
+
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" id="progressBar"></div>
+      </div>
+
+      <div class="current-player-card" id="currentPlayerCard">
+        <div class="current-avatar" id="currentAvatar">م</div>
+        <div class="current-name" id="currentName">—</div>
+        <div class="current-index" id="currentIndex">بازیکن ۱ از ۱۲</div>
+
+        <div class="skill-options" id="skillOptions">
+          <div class="skill-option" data-skill="1">
+            <div class="stars">★</div>
+            <div class="label">مبتدی</div>
+          </div>
+          <div class="skill-option" data-skill="2">
+            <div class="stars">★★</div>
+            <div class="label">ضعیف</div>
+          </div>
+          <div class="skill-option" data-skill="3">
+            <div class="stars">★★★</div>
+            <div class="label">متوسط</div>
+          </div>
+          <div class="skill-option" data-skill="4">
+            <div class="stars">★★★★</div>
+            <div class="label">خوب</div>
+          </div>
+          <div class="skill-option" data-skill="5">
+            <div class="stars">★★★★★</div>
+            <div class="label">حرفه‌ای</div>
+          </div>
+        </div>
+
+        <div class="gk-checkbox-row" id="gkCheckboxRow">
+          <input type="checkbox" id="gkCheckbox">
+          <label for="gkCheckbox">🧤 این بازیکن دروازه‌بان است</label>
+        </div>
+
+        <div class="step-actions">
+          <button class="glass-btn" id="prevBtn">◀ قبلی</button>
+          <button class="glass-btn primary" id="nextBtn">ثبت و بعدی ▶</button>
+        </div>
+      </div>
+
+      <div class="chip-list" id="chipList"></div>
+
+      <div class="divider"></div>
+
+      <button class="glass-btn primary btn-full" id="finishSkillsBtn" disabled>
+        ✅ تکمیل و رفتن به تیم‌کشی
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3 ===== -->
+  <div class="step-panel" id="step3">
+    <div class="chart-panel glass">
+      <div class="chart-title-row">
+        <div class="panel-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">
+          <span class="icon">📊</span>
+          نمودار سطح بازیکنان
+        </div>
+        <div class="chart-subtitle" id="chartSubtitle">در انتظار داده‌ها...</div>
+      </div>
+
+      <div id="chartContent">
+        <div class="chart-empty">
+          <div style="font-size: 2.2rem; margin-bottom: 10px; opacity: 0.4;">📈</div>
+          <p>هنوز بازیکنی اضافه نشده</p>
+        </div>
+      </div>
+
+      <div class="skill-summary" id="skillSummary" style="display: none;">
+        <div class="skill-summary-card">
+          <div class="label">قوی‌ترین بازیکن</div>
+          <div class="value strong" id="strongestName">—</div>
+        </div>
+        <div class="skill-summary-card">
+          <div class="label">ضعیف‌ترین بازیکن</div>
+          <div class="value weak" id="weakestName">—</div>
+        </div>
+        <div class="skill-summary-card">
+          <div class="label">میانگین سطح</div>
+          <div class="value avg" id="avgSkill">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-grid">
+      <div class="panel glass" style="margin-bottom: 0;">
+        <div class="roster-header">
+          <div class="panel-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">
+            <span class="icon">👥</span>
+            لیست بازیکنان
+          </div>
+          <button class="glass-btn danger" id="restartBtn" style="padding: 7px 12px; font-size: 0.75rem;">
+            🔄 شروع مجدد
+          </button>
+        </div>
+
+        <div class="counter" style="margin-top: 10px;">
+          بازیکنان: <strong id="playerCount">0</strong> / ۲۰ &nbsp;|&nbsp; دروازه‌بان‌ها: <strong id="gkCount" style="color:#fde047;">0</strong>
+        </div>
+
+        <div class="drag-hint" id="dragHint" style="display: none;">
+          ✋ برای جابجایی، هر بازیکن را بگیرید و بکشید
+        </div>
+
+        <div class="player-list" id="playerList"></div>
+
+        <div class="divider"></div>
+
+        <div class="panel-title" style="margin-bottom: 12px; padding-bottom: 10px; font-size: 1rem;">
+          <span class="icon">➕</span>
+          افزودن دستی بازیکن
+        </div>
+        <div class="manual-add-row">
+          <input type="text" id="manualName" class="manual-input" placeholder="نام بازیکن" maxlength="30">
+          <select id="manualSkill" class="manual-select">
+            <option value="1">⭐ مبتدی</option>
+            <option value="2">⭐⭐ ضعیف</option>
+            <option value="3" selected>⭐⭐⭐ متوسط</option>
+            <option value="4">⭐⭐⭐⭐ خوب</option>
+            <option value="5">⭐⭐⭐⭐⭐ حرفه‌ای</option>
+          </select>
+        </div>
+        <div class="gk-checkbox-row" id="manualGkRow" style="margin-bottom: 10px; padding: 8px;">
+          <input type="checkbox" id="manualGk">
+          <label for="manualGk">🧤 دروازه‌بان است</label>
+        </div>
+        <button class="glass-btn primary btn-full" id="manualAddBtn" style="padding: 9px; font-size: 0.85rem;">افزودن</button>
+      </div>
+
+      <div class="panel glass" style="margin-bottom: 0;">
+        <div class="panel-title" style="font-size: 1.1rem; margin-bottom: 16px;">
+          <span class="icon">🎯</span>
+          تنظیمات تیم‌کشی
+        </div>
+
+        <div class="teams-count-selector">
+          <span class="label">تعداد تیم:</span>
+          <button class="count-btn active" data-count="2">۲ تیم</button>
+          <button class="count-btn" data-count="3">۳ تیم</button>
+        </div>
+
+        <div class="team-mode-row">
+          <button class="mode-btn active" data-mode="balanced">⚖️ متعادل</button>
+          <button class="mode-btn" data-mode="random">🎲 تصادفی</button>
+        </div>
+
+        <div class="teams-count-selector" style="flex-wrap: wrap;">
+          <span class="label">اندازه تیم:</span>
+          <button class="count-btn active" data-size="5">۵ نفره</button>
+          <button class="count-btn" data-size="0">خودکار</button>
+        </div>
+
+        <button class="glass-btn primary btn-full" id="drawBtn" style="margin-top: 4px; padding: 11px;">🎲 تیم‌کشی و تولید خروجی</button>
+
+        <div class="divider"></div>
+
+        <div class="panel-title" style="margin-bottom: 12px; font-size: 1.1rem;">
+          <span class="icon">🏟</span>
+          نتیجه تیم‌کشی
+        </div>
+
+        <div id="resultEmpty" class="empty-state">
+          <div class="big-icon">🎯</div>
+          <p>دکمه تیم‌کشی را بزنید</p>
+        </div>
+
+        <div class="teams-section" id="teamsSection">
+          <div class="teams-grid" id="teamsGrid"></div>
+
+          <div class="balance-bar" id="balanceBar">
+            <div class="balance-bar-label">
+              <span>تعادل تیم‌ها</span>
+              <span id="balancePercent">0%</span>
+            </div>
+            <div class="balance-track">
+              <div class="balance-fill-a" id="balanceFillA" style="width: 50%;"></div>
+              <div class="balance-fill-b" id="balanceFillB" style="width: 50%;"></div>
+            </div>
+            <div class="balance-status" id="balanceStatus"></div>
+          </div>
+
+          <div id="gkBox" style="display: none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-output-panel glass" id="textOutputPanel">
+      <div class="text-output-header">
+        <div class="panel-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0; font-size: 1.1rem;">
+          <span class="icon">📝</span>
+          خروجی متنی
+        </div>
+        <button class="copy-btn" id="copyBtn">📋 کپی متن</button>
+      </div>
+      <div class="text-output" id="textOutput"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ============ STATE ============ */
+  var MAX_PLAYERS = 20;
+  var players = [];
+  var teamA = [], teamB = [], teamC = [];
+  var teamsCount = 2;
+  var teamSize = 5;
+  var drawMode = 'balanced';
+  var lastTeamsData = null;
+  var dragSource = null;
+  var uidCounter = 1;
+  var pendingNames = [];
+  var currentIndex = 0;
+
+  var skillColors = {
+    1: 'linear-gradient(135deg, #f87171, #dc2626)',
+    2: 'linear-gradient(135deg, #fb923c, #ea580c)',
+    3: 'linear-gradient(135deg, #fde047, #ca8a04)',
+    4: 'linear-gradient(135deg, #6ee7b7, #059669)',
+    5: 'linear-gradient(135deg, #7dd3fc, #0284c7)'
+  };
+  var skillLabels = { 1: 'مبتدی', 2: 'ضعیف', 3: 'متوسط', 4: 'خوب', 5: 'حرفه‌ای' };
+  var skillStars = { 1: '★', 2: '★★', 3: '★★★', 4: '★★★★', 5: '★★★★★' };
+  var teamLabels = { A: 'تیم A', B: 'تیم B', C: 'تیم C' };
+  var teamEmoji = { A: '🟢', B: '🟣', C: '🟠' };
+
+  /* ============ DOM ============ */
+  function $(id) { return document.getElementById(id); }
+
+  var step1 = $('step1'), step2 = $('step2'), step3 = $('step3');
+  var namesInput = $('namesInput'), parseBtn = $('parseBtn');
+  var parseInfo = $('parseInfo'), parseInfoText = $('parseInfoText');
+  var previewNames = $('previewNames');
+  var currentAvatar = $('currentAvatar'), currentName = $('currentName');
+  var currentIndexEl = $('currentIndex'), progressText = $('progressText');
+  var progressBar = $('progressBar'), skillOptions = $('skillOptions');
+  var gkCheckbox = $('gkCheckbox'), gkCheckboxRow = $('gkCheckboxRow');
+  var prevBtn = $('prevBtn'), nextBtn = $('nextBtn');
+  var chipList = $('chipList'), finishSkillsBtn = $('finishSkillsBtn');
+  var playerListEl = $('playerList'), playerCountEl = $('playerCount'), gkCountEl = $('gkCount');
+  var resultEmpty = $('resultEmpty'), teamsSection = $('teamsSection');
+  var toastEl = $('toast'), dragHint = $('dragHint'), teamsGrid = $('teamsGrid');
+  var gkBox = $('gkBox'), textOutputPanel = $('textOutputPanel');
+  var textOutput = $('textOutput'), copyBtn = $('copyBtn');
+
+  var toastTimeout;
+  function showToast(msg, isError) {
+    if (isError === undefined) isError = false;
+    toastEl.textContent = msg;
+    toastEl.className = 'toast' + (isError ? ' error' : '');
+    toastEl.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(function() { toastEl.classList.remove('show'); }, 2800);
+  }
+
+  function toFaNum(n) { return String(n).replace(/\d/g, function(d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); }
+  function getInitial(name) { var t = name.trim(); return t ? t.charAt(0) : '?'; }
+  function escapeHtml(str) { var d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+
+  /* ============ STEP 1: PARSE ============ */
+  function stripLeadingNumber(line) {
+    var s = line;
+    while (s.length && (s.charCodeAt(0) === 32 || s.charCodeAt(0) === 9)) {
+      s = s.substring(1);
+    }
+    var i = 0;
+    while (i < s.length) {
+      var code = s.charCodeAt(i);
+      if ((code >= 48 && code <= 57) ||
+          (code >= 0x0660 && code <= 0x0669) ||
+          (code >= 0x06F0 && code <= 0x06F9)) {
+        i++;
+      } else {
+        break;
+      }
+    }
+    if (i > 0) {
+      while (i < s.length) {
+        var c = s.charAt(i);
+        if (c === ' ' || c === '.' || c === '-' || c === '_' ||
+            c === ')' || c === '(' || c === ']' || c === '[' ||
+            c === ',' || c === ':' || c === ';' || c === '؛' ||
+            c === '،' || c === ')' || c === '>' || c === '»') {
+          i++;
+        } else {
+          break;
+        }
+      }
+      s = s.substring(i);
+    }
+    while (s.length && (s.charAt(0) === '-' || s.charAt(0) === '–' || s.charAt(0) === '—')) {
+      s = s.substring(1);
+    }
+    s = s.replace(/^\s+/, '').replace(/\s+$/, '');
+    s = s.replace(/[\s\.\-\)\]\,\:؛،]+$/, '').replace(/\s+$/, '');
+    return s;
+  }
+
+  function parseNames(text) {
+    if (!text || !text.replace(/\s/g, '')) return [];
+    var lines = text.split('\n');
+    var names = [];
+    var seen = {};
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].replace(/\r/g, '');
+      var cleaned = stripLeadingNumber(line);
+      if (cleaned.length < 1) continue;
+      var key = cleaned.toLowerCase();
+      if (seen[key]) continue;
+      seen[key] = true;
+      names.push(cleaned);
+    }
+    return names;
+  }
+
+  function updatePreview() {
+    var names = parseNames(namesInput.value);
+    if (names.length > 0) {
+      parseInfo.style.display = 'flex';
+      parseInfoText.textContent = toFaNum(names.length) + ' بازیکن شناسایی شد';
+      previewNames.style.display = 'block';
+      var html = '';
+      for (var i = 0; i < names.length; i++) {
+        html += '<span class="preview-name-item"><span class="num">' + toFaNum(i + 1) + '.</span>' + escapeHtml(names[i]) + '</span>';
+      }
+      previewNames.innerHTML = html;
+    } else {
+      parseInfo.style.display = 'none';
+      previewNames.style.display = 'none';
+    }
+  }
+
+  namesInput.addEventListener('input', updatePreview);
+
+  parseBtn.addEventListener('click', function() {
+    var names = parseNames(namesInput.value);
+    if (names.length === 0) {
+      showToast('هیچ نامی شناسایی نشد. متن را بررسی کنید.', true);
+      return;
+    }
+    if (names.length > MAX_PLAYERS) {
+      showToast('حداکثر ' + MAX_PLAYERS + ' بازیکن. ' + toFaNum(names.length - MAX_PLAYERS) + ' نفر اضافه است.', true);
+      return;
+    }
+
+    pendingNames = [];
+    for (var i = 0; i < names.length; i++) {
+      pendingNames.push({ name: names[i], skill: 0, isGK: false });
+    }
+    currentIndex = 0;
+
+    step1.classList.remove('active');
+    step2.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    renderSkillStep();
+  });
+
+  /* ============ STEP 2: SKILL ============ */
+  function renderSkillStep() {
+    if (pendingNames.length === 0) return;
+    var p = pendingNames[currentIndex];
+
+    currentAvatar.textContent = getInitial(p.name);
+    currentName.textContent = p.name;
+    currentIndexEl.textContent = 'بازیکن ' + toFaNum(currentIndex + 1) + ' از ' + toFaNum(pendingNames.length);
+
+    var opts = skillOptions.querySelectorAll('.skill-option');
+    for (var i = 0; i < opts.length; i++) {
+      if (parseInt(opts[i].dataset.skill) === p.skill) {
+        opts[i].classList.add('selected');
+      } else {
+        opts[i].classList.remove('selected');
+      }
+    }
+
+    gkCheckbox.checked = p.isGK;
+    if (p.isGK) gkCheckboxRow.classList.add('checked');
+    else gkCheckboxRow.classList.remove('checked');
+
+    var done = 0;
+    for (var d = 0; d < pendingNames.length; d++) {
+      if (pendingNames[d].skill > 0) done++;
+    }
+    progressText.innerHTML = '<strong>' + toFaNum(done) + '</strong> از ' + toFaNum(pendingNames.length);
+    progressBar.style.width = (done / pendingNames.length * 100) + '%';
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = p.skill === 0;
+
+    if (currentIndex === pendingNames.length - 1) {
+      nextBtn.textContent = '✅ ثبت و اتمام';
+    } else {
+      nextBtn.textContent = 'ثبت و بعدی ▶';
+    }
+
+    var html = '';
+    for (var c = 0; c < pendingNames.length; c++) {
+      var pn = pendingNames[c];
+      var cls = 'chip';
+      if (pn.skill > 0) cls += ' done';
+      if (c === currentIndex) cls += ' current';
+      html += '<div class="' + cls + '" data-idx="' + c + '">' +
+              '<span class="chip-dot"></span>' +
+              escapeHtml(pn.name) + (pn.isGK ? ' 🧤' : '') +
+              '</div>';
+    }
+    chipList.innerHTML = html;
+
+    var chips = chipList.querySelectorAll('.chip');
+    for (var ch = 0; ch < chips.length; ch++) {
+      (function(chip) {
+        chip.addEventListener('click', function() {
+          currentIndex = parseInt(chip.dataset.idx);
+          renderSkillStep();
+        });
+      })(chips[ch]);
+    }
+
+    var allDone = true;
+    for (var ad = 0; ad < pendingNames.length; ad++) {
+      if (pendingNames[ad].skill === 0) { allDone = false; break; }
+    }
+    finishSkillsBtn.disabled = !allDone;
+  }
+
+  var skillOptEls = skillOptions.querySelectorAll('.skill-option');
+  for (var so = 0; so < skillOptEls.length; so++) {
+    (function(opt) {
+      opt.addEventListener('click', function() {
+        pendingNames[currentIndex].skill = parseInt(opt.dataset.skill);
+        renderSkillStep();
+      });
+    })(skillOptEls[so]);
+  }
+
+  gkCheckbox.addEventListener('change', function() {
+    pendingNames[currentIndex].isGK = gkCheckbox.checked;
+    renderSkillStep();
+  });
+
+  gkCheckboxRow.addEventListener('click', function(e) {
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+      gkCheckbox.checked = !gkCheckbox.checked;
+      pendingNames[currentIndex].isGK = gkCheckbox.checked;
+      renderSkillStep();
+    }
+  });
+
+  prevBtn.addEventListener('click', function() {
+    if (currentIndex > 0) { currentIndex--; renderSkillStep(); }
+  });
+
+  nextBtn.addEventListener('click', function() {
+    if (pendingNames[currentIndex].skill === 0) {
+      showToast('لطفاً سطح بازیکن را انتخاب کنید', true);
+      return;
+    }
+    if (currentIndex < pendingNames.length - 1) {
+      currentIndex++; renderSkillStep();
+    } else {
+      finishSkills();
+    }
+  });
+
+  finishSkillsBtn.addEventListener('click', finishSkills);
+
+  function finishSkills() {
+    for (var i = 0; i < pendingNames.length; i++) {
+      if (pendingNames[i].skill === 0) {
+        showToast('لطفاً سطح همه بازیکنان را مشخص کنید', true);
+        return;
+      }
+    }
+
+    players = [];
+    for (var j = 0; j < pendingNames.length; j++) {
+      players.push({
+        id: uidCounter++,
+        name: pendingNames[j].name,
+        skill: pendingNames[j].skill,
+        isGK: pendingNames[j].isGK
+      });
+    }
+
+    teamA = []; teamB = []; teamC = [];
+    lastTeamsData = null;
+
+    step2.classList.remove('active');
+    step3.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    renderPlayers();
+    updateChart();
+    showToast('✅ ' + toFaNum(players.length) + ' بازیکن آماده شد!');
+  }
+
+  /* ============ STEP 3 ============ */
+  $('restartBtn').addEventListener('click', function() {
+    if (!confirm('از ابتدا شروع شود؟ همه داده‌ها پاک می‌شوند.')) return;
+    players = []; teamA = []; teamB = []; teamC = []; lastTeamsData = null;
+    pendingNames = []; currentIndex = 0;
+    namesInput.value = ''; parseInfo.style.display = 'none'; previewNames.style.display = 'none';
+    step3.classList.remove('active'); step2.classList.remove('active'); step1.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  function renderPlayers() {
+    var gks = players.filter(function(p) { return p.isGK; });
+    playerCountEl.textContent = players.length;
+    gkCountEl.textContent = gks.length;
+    dragHint.style.display = players.length > 1 ? 'block' : 'none';
+
+    if (players.length === 0) {
+      playerListEl.innerHTML = '<div class="empty-state"><div class="big-icon">⚽</div><p>هنوز بازیکنی اضافه نشده</p></div>';
+      return;
+    }
+
+    var html = '';
+    for (var i = 0; i < players.length; i++) {
+      var p = players[i];
+      html += '<div class="player-item ' + (p.isGK ? 'gk-item' : '') + '" draggable="true" data-id="' + p.id + '" data-index="' + i + '">' +
+        '<span class="player-order">' + (i + 1) + '</span>' +
+        '<div class="drag-handle" title="برای جابجایی بکشید">⠿</div>' +
+        '<div class="player-info">' +
+          '<div class="player-avatar ' + (p.isGK ? 'gk' : '') + '" style="background: ' + skillColors[p.skill] + ';">' + getInitial(p.name) + '</div>' +
+          '<div style="min-width: 0;">' +
+            '<div class="player-name">' + escapeHtml(p.name) + '</div>' +
+            '<span class="skill-badge level-' + p.skill + '">' + skillStars[p.skill] + ' ' + skillLabels[p.skill] + '</span>' +
+            (p.isGK ? '<span class="skill-badge gk-badge">🧤 دروازه‌بان</span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<button class="remove-btn" data-id="' + p.id + '" title="حذف">✕</button>' +
+      '</div>';
+    }
+    playerListEl.innerHTML = html;
+
+    var removeBtns = playerListEl.querySelectorAll('.remove-btn');
+    for (var r = 0; r < removeBtns.length; r++) {
+      (function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          removePlayerById(parseInt(btn.dataset.id));
+        });
+      })(removeBtns[r]);
+    }
+
+    var items = playerListEl.querySelectorAll('.player-item');
+    for (var it = 0; it < items.length; it++) {
+      (function(item) {
+        item.addEventListener('dragstart', function(e) {
+          dragSource = { type: 'roster', playerId: parseInt(item.dataset.id) };
+          item.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', item.dataset.id);
+        });
+        item.addEventListener('dragend', function() {
+          item.classList.remove('dragging');
+          var all = playerListEl.querySelectorAll('.player-item');
+          for (var a = 0; a < all.length; a++) all[a].classList.remove('drag-over');
+          dragSource = null;
+        });
+        item.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          if (dragSource && dragSource.type === 'roster' && parseInt(item.dataset.id) !== dragSource.playerId) {
+            item.classList.add('drag-over');
+          }
+        });
+        item.addEventListener('dragleave', function() { item.classList.remove('drag-over'); });
+        item.addEventListener('drop', function(e) {
+          e.preventDefault();
+          item.classList.remove('drag-over');
+          if (!dragSource || dragSource.type !== 'roster') return;
+          var fromId = dragSource.playerId;
+          var toId = parseInt(item.dataset.id);
+          if (fromId === toId) return;
+          var fromIdx = -1, toIdx = -1;
+          for (var f = 0; f < players.length; f++) {
+            if (players[f].id === fromId) fromIdx = f;
+            if (players[f].id === toId) toIdx = f;
+          }
+          if (fromIdx === -1 || toIdx === -1) return;
+          var moved = players.splice(fromIdx, 1)[0];
+          players.splice(toIdx, 0, moved);
+          dragSource = null;
+          renderPlayers();
+        });
+      })(items[it]);
+    }
+  }
+
+  function removePlayerById(id) {
+    var idx = -1;
+    for (var i = 0; i < players.length; i++) { if (players[i].id === id) { idx = i; break; } }
+    if (idx === -1) return;
+    teamA = teamA.filter(function(p) { return p.id !== id; });
+    teamB = teamB.filter(function(p) { return p.id !== id; });
+    teamC = teamC.filter(function(p) { return p.id !== id; });
+    var name = players[idx].name;
+    players.splice(idx, 1);
+    renderPlayers();
+    updateChart();
+    if (lastTeamsData) drawTeams(); else hideResults();
+    showToast('«' + name + '» حذف شد');
+  }
+
+  $('manualAddBtn').addEventListener('click', function() {
+    var nameInput = $('manualName'), skillSelect = $('manualSkill'), gkCheck = $('manualGk');
+    var name = nameInput.value.trim();
+    var skill = parseInt(skillSelect.value);
+    var isGK = gkCheck.checked;
+
+    if (!name) { showToast('نام را وارد کنید', true); return; }
+    if (players.length >= MAX_PLAYERS) { showToast('حداکثر ۲۰ نفر', true); return; }
+    var dup = false;
+    for (var i = 0; i < players.length; i++) {
+      if (players[i].name.trim().toLowerCase() === name.toLowerCase()) { dup = true; break; }
+    }
+    if (dup) { showToast('این نام قبلاً اضافه شده', true); return; }
+
+    players.push({ id: uidCounter++, name: name, skill: skill, isGK: isGK });
+    nameInput.value = ''; gkCheck.checked = false; nameInput.focus();
+    renderPlayers(); updateChart(); hideResults();
+    showToast('«' + name + '» اضافه شد');
+  });
+
+  $('manualName').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') $('manualAddBtn').click();
+  });
+
+  /* ============ CHART ============ */
+  function updateChart() {
+    var chartContent = $('chartContent'), skillSummary = $('skillSummary');
+    var chartSubtitle = $('chartSubtitle');
+    var outfield = players.filter(function(p) { return !p.isGK; });
+
+    if (outfield.length === 0) {
+      chartContent.innerHTML = '<div class="chart-empty"><div style="font-size: 2.2rem; margin-bottom: 10px; opacity: 0.4;">📈</div><p>هنوز بازیکن полевой اضافه نشده</p></div>';
+      skillSummary.style.display = 'none';
+      chartSubtitle.textContent = 'در انتظار داده‌ها...';
+      return;
+    }
+
+    var counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    for (var i = 0; i < outfield.length; i++) counts[outfield[i].skill]++;
+    var maxCount = Math.max(counts[1], counts[2], counts[3], counts[4], counts[5], 1);
+
+    var barsHtml = '';
+    for (var lvl = 1; lvl <= 5; lvl++) {
+      var count = counts[lvl];
+      var h = Math.max((count / maxCount) * 100, 3);
+      barsHtml += '<div class="chart-bar-col">' +
+        '<div class="chart-bar chart-bar-' + lvl + '" style="height: ' + h + '%;"><span class="chart-bar-count">' + count + '</span></div>' +
+        '<div class="chart-x-label">' + skillLabels[lvl] + '</div>' +
+        '<div class="chart-x-stars">' + skillStars[lvl] + '</div>' +
+      '</div>';
+    }
+    chartContent.innerHTML = '<div class="chart-wrap"><div class="chart-bars">' + barsHtml + '</div></div>';
+
+    var sorted = outfield.slice().sort(function(a, b) {
+      return b.skill - a.skill || a.name.localeCompare(b.name, 'fa');
+    });
+    $('strongestName').textContent = sorted[0].name;
+    $('weakestName').textContent = sorted[sorted.length - 1].name;
+    var sum = 0;
+    for (var s = 0; s < outfield.length; s++) sum += outfield[s].skill;
+    $('avgSkill').textContent = (sum / outfield.length).toFixed(2);
+
+    skillSummary.style.display = 'flex';
+    chartSubtitle.textContent = outfield.length + ' بازیکن + ' + (players.length - outfield.length) + ' دروازه‌بان';
+  }
+
+  /* ============ DRAW ============ */
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function drawTeams() {
+    var outfield = players.filter(function(p) { return !p.isGK; });
+    var goalkeepers = players.filter(function(p) { return p.isGK; });
+
+    if (outfield.length < teamsCount) {
+      showToast('حداقل ' + teamsCount + ' بازیکن полевой نیاز است', true);
+      return;
+    }
+
+    var numTeams = teamsCount;
+    var teams = { A: [], B: [], C: [] };
+    var teamKeys = ['A', 'B', 'C'].slice(0, numTeams);
+    var sizePerTeam = teamSize > 0 ? teamSize : Math.ceil(outfield.length / numTeams);
+
+    var sorted;
+    if (drawMode === 'random') sorted = shuffle(outfield);
+    else sorted = shuffle(outfield).sort(function(a, b) { return b.skill - a.skill; });
+
+    var teamSums = { A: 0, B: 0, C: 0 };
+
+    for (var i = 0; i < sorted.length; i++) {
+      var p = sorted[i];
+      var available = [];
+      for (var k = 0; k < teamKeys.length; k++) {
+        if (teams[teamKeys[k]].length < sizePerTeam) available.push(teamKeys[k]);
+      }
+      if (available.length === 0) {
+        var minLen = Infinity;
+        for (var ml = 0; ml < teamKeys.length; ml++) {
+          if (teams[teamKeys[ml]].length < minLen) minLen = teams[teamKeys[ml]].length;
+        }
+        for (var al = 0; al < teamKeys.length; al++) {
+          if (teams[teamKeys[al]].length === minLen) available.push(teamKeys[al]);
+        }
+      }
+      var pick;
+      if (drawMode === 'random') pick = available[Math.floor(Math.random() * available.length)];
+      else {
+        available.sort(function(x, y) { return teamSums[x] - teamSums[y]; });
+        pick = available[0];
+      }
+      teams[pick].push(p);
+      teamSums[pick] += p.skill;
+    }
+
+    teamA = teams.A; teamB = teams.B; teamC = teams.C;
+
+    var sortBySkill = function(a, b) { return b.skill - a.skill || a.name.localeCompare(b.name, 'fa'); };
+    teamA.sort(sortBySkill); teamB.sort(sortBySkill); teamC.sort(sortBySkill);
+
+    lastTeamsData = {
+      teams: { A: teamA.slice(), B: teamB.slice(), C: teamC.slice() },
+      goalkeepers: goalkeepers,
+      numTeams: numTeams,
+      sizePerTeam: sizePerTeam
+    };
+
+    renderTeams();
+    renderTextOutput();
+    showToast('تیم‌کشی انجام شد! 🎉');
+  }
+
+  function hideResults() {
+    teamsSection.classList.remove('active');
+    resultEmpty.style.display = 'block';
+    textOutputPanel.classList.remove('active');
+    lastTeamsData = null;
+  }
+
+  function renderTeams() {
+    resultEmpty.style.display = 'none';
+    teamsSection.classList.add('active');
+    teamsGrid.className = 'teams-grid' + (teamsCount === 3 ? ' three' : '');
+
+    var activeTeams = teamsCount === 3
+      ? [{ key: 'A', players: teamA }, { key: 'B', players: teamB }, { key: 'C', players: teamC }]
+      : [{ key: 'A', players: teamA }, { key: 'B', players: teamB }];
+
+    var cls = { A: 'team-a', B: 'team-b', C: 'team-c' };
+    var html = '';
+
+    for (var t = 0; t < activeTeams.length; t++) {
+      var team = activeTeams[t];
+      var sum = 0;
+      for (var s = 0; s < team.players.length; s++) sum += team.players[s].skill;
+      var avg = team.players.length ? (sum / team.players.length).toFixed(1) : '0';
+
+      var playersHtml = '';
+      if (team.players.length === 0) {
+        playersHtml = '<div class="empty-team">بازیکنی در این تیم نیست</div>';
+      } else {
+        for (var p = 0; p < team.players.length; p++) {
+          var pl = team.players[p];
+          playersHtml += '<div class="team-player" draggable="true" data-id="' + pl.id + '" data-team="' + team.key + '">' +
+            '<span class="drag-handle" style="font-size:0.9rem;">⠿</span>' +
+            '<div class="player-avatar" style="background: ' + skillColors[pl.skill] + ';">' + getInitial(pl.name) + '</div>' +
+            '<div class="player-name">' + escapeHtml(pl.name) + '</div>' +
+            '<span class="skill-badge level-' + pl.skill + '">' + skillStars[pl.skill] + '</span>' +
+          '</div>';
+        }
+      }
+
+      html += '<div class="team-card glass ' + cls[team.key] + '">' +
+        '<div class="team-header">' +
+          '<div class="team-name">' + teamEmoji[team.key] + ' ' + teamLabels[team.key] + '</div>' +
+          '<div class="team-stats"><div>' + team.players.length + ' بازیکن | مجموع: <strong>' + sum + '</strong> | میانگین: <strong>' + avg + '</strong></div></div>' +
+        '</div>' +
+        '<div class="team-players" id="teamList' + team.key + '" data-team="' + team.key + '">' + playersHtml + '</div>' +
+      '</div>';
+    }
+    teamsGrid.innerHTML = html;
+
+    for (var at = 0; at < activeTeams.length; at++) {
+      (function(team) {
+        var listEl = $('teamList' + team.key);
+        if (!listEl) return;
+
+        var tps = listEl.querySelectorAll('.team-player');
+        for (var tp = 0; tp < tps.length; tp++) {
+          (function(item) {
+            item.addEventListener('dragstart', function(e) {
+              dragSource = { type: 'team', playerId: parseInt(item.dataset.id), fromTeam: item.dataset.team };
+              item.classList.add('dragging');
+              e.dataTransfer.effectAllowed = 'move';
+              e.dataTransfer.setData('text/plain', item.dataset.id);
+            });
+            item.addEventListener('dragend', function() {
+              item.classList.remove('dragging');
+              var all = document.querySelectorAll('.team-players');
+              for (var a = 0; a < all.length; a++) all[a].classList.remove('drop-target');
+              dragSource = null;
+            });
+          })(tps[tp]);
+        }
+
+        listEl.addEventListener('dragover', function(e) {
+          if (!dragSource) return;
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          listEl.classList.add('drop-target');
+        });
+        listEl.addEventListener('dragleave', function(e) {
+          if (!listEl.contains(e.relatedTarget)) listEl.classList.remove('drop-target');
+        });
+        listEl.addEventListener('drop', function(e) {
+          e.preventDefault();
+          listEl.classList.remove('drop-target');
+          if (!dragSource) return;
+          movePlayerToTeam(dragSource.playerId, dragSource, team.key);
+          dragSource = null;
+        });
+      })(activeTeams[at]);
+    }
+
+    var balanceBar = $('balanceBar');
+    if (teamsCount === 2) {
+      balanceBar.style.display = 'block';
+      var sumA = 0, sumB = 0;
+      for (var sa = 0; sa < teamA.length; sa++) sumA += teamA[sa].skill;
+      for (var sb = 0; sb < teamB.length; sb++) sumB += teamB[sb].skill;
+      var total = sumA + sumB;
+      var pctA = total > 0 ? (sumA / total) * 100 : 50;
+      var diff = Math.abs(sumA - sumB);
+      var maxSum = Math.max(sumA, sumB);
+      var score = maxSum > 0 ? Math.round((1 - diff / maxSum) * 100) : 100;
+
+      $('balanceFillA').style.width = pctA + '%';
+      $('balanceFillB').style.width = (100 - pctA) + '%';
+      $('balancePercent').textContent = score + '%';
+
+      var statusEl = $('balanceStatus');
+      if (score >= 90) { statusEl.textContent = '✨ تعادل عالی!'; statusEl.className = 'balance-status good'; }
+      else if (score >= 75) { statusEl.textContent = '👍 تعادل خوب'; statusEl.className = 'balance-status good'; }
+      else if (score >= 60) { statusEl.textContent = '⚖️ تعادل متوسط'; statusEl.className = 'balance-status warn'; }
+      else { statusEl.textContent = '⚠️ اختلاف سطح قابل توجه'; statusEl.className = 'balance-status warn'; }
+    } else {
+      balanceBar.style.display = 'none';
+    }
+
+    var gks = lastTeamsData ? lastTeamsData.goalkeepers : players.filter(function(p) { return p.isGK; });
+    if (gks.length > 0) {
+      gkBox.style.display = 'block';
+      var gkHtml = '<div class="gk-box"><div class="gk-box-title">🧤 دروازه‌بان‌های ثابت</div><div class="gk-list">';
+      for (var g = 0; g < gks.length; g++) {
+        gkHtml += '<div class="gk-chip"><div class="player-avatar gk">' + getInitial(gks[g].name) + '</div>' + escapeHtml(gks[g].name) + '</div>';
+      }
+      gkHtml += '</div></div>';
+      gkBox.innerHTML = gkHtml;
+    } else {
+      gkBox.style.display = 'none';
+    }
+  }
+
+  function movePlayerToTeam(playerId, source, targetTeam) {
+    var playerObj = null;
+    for (var i = 0; i < players.length; i++) {
+      if (players[i].id === playerId) { playerObj = players[i]; break; }
+    }
+    if (!playerObj) return;
+
+    if (source.type === 'team') {
+      if (source.fromTeam === 'A') teamA = teamA.filter(function(p) { return p.id !== playerId; });
+      else if (source.fromTeam === 'B') teamB = teamB.filter(function(p) { return p.id !== playerId; });
+      else if (source.fromTeam === 'C') teamC = teamC.filter(function(p) { return p.id !== playerId; });
+      if (source.fromTeam === targetTeam) { renderTeams(); renderTextOutput(); return; }
+    } else {
+      teamA = teamA.filter(function(p) { return p.id !== playerId; });
+      teamB = teamB.filter(function(p) { return p.id !== playerId; });
+      teamC = teamC.filter(function(p) { return p.id !== playerId; });
+    }
+
+    if (targetTeam === 'A') teamA.push(playerObj);
+    else if (targetTeam === 'B') teamB.push(playerObj);
+    else if (targetTeam === 'C') teamC.push(playerObj);
+
+    if (lastTeamsData) lastTeamsData.teams = { A: teamA.slice(), B: teamB.slice(), C: teamC.slice() };
+
+    renderTeams();
+    renderTextOutput();
+    showToast('«' + playerObj.name + '» به ' + teamLabels[targetTeam] + ' منتقل شد');
+  }
+
+  /* ============ TEXT ============ */
+  function renderTextOutput() {
+    if (!lastTeamsData) return;
+    var teams = lastTeamsData.teams, goalkeepers = lastTeamsData.goalkeepers;
+    var numTeams = lastTeamsData.numTeams, sizePerTeam = lastTeamsData.sizePerTeam;
+    var activeKeys = ['A', 'B', 'C'].slice(0, numTeams);
+
+    var out = '';
+    for (var i = 0; i < activeKeys.length; i++) {
+      var key = activeKeys[i];
+      var list = teams[key];
+      out += '✅ ' + teamLabels[key] + '\n';
+      if (list.length === 0) out += '   (خالی)\n';
+      else for (var j = 0; j < list.length; j++) out += toFaNum(j + 1) + '. ' + list[j].name + '\n';
+      out += '\n';
+    }
+
+    var assignedIds = {};
+    for (var ak = 0; ak < activeKeys.length; ak++) {
+      for (var ap = 0; ap < teams[activeKeys[ak]].length; ap++) assignedIds[teams[activeKeys[ak]][ap].id] = true;
+    }
+    var subs = players.filter(function(p) { return !p.isGK && !assignedIds[p.id]; });
+    if (subs.length > 0) {
+      out += '🔁 تعویضی‌ها (' + toFaNum(subs.length) + ' نفر)\n';
+      for (var sb = 0; sb < subs.length; sb++) out += toFaNum(sb + 1) + '. ' + subs[sb].name + '\n';
+      out += '\n';
+    }
+
+    if (goalkeepers.length > 0) {
+      out += '✅ دروازه‌بان‌های ثابت\n';
+      for (var gk = 0; gk < goalkeepers.length; gk++) out += goalkeepers[gk].name + '\n';
+      out += '\n';
+    }
+
+    var outfieldCount = players.filter(function(p) { return !p.isGK; }).length;
+    out += '📊 خلاصه:\n';
+    out += '• تعداد تیم‌ها: ' + toFaNum(numTeams) + '\n';
+    out += '• اندازه هر تیم: ' + toFaNum(sizePerTeam) + ' نفر\n';
+    out += '• بازیکنان полевой: ' + toFaNum(outfieldCount) + ' نفر\n';
+    out += '• دروازه‌بان‌ها: ' + toFaNum(goalkeepers.length) + ' نفر\n';
+    if (subs.length > 0) out += '• تعویضی‌ها: ' + toFaNum(subs.length) + ' نفر\n';
+
+    var safe = escapeHtml(out)
+      .replace(/✅ (تیم [ABC])/g, '<span class="team-line">✅ $1</span>')
+      .replace(/✅ (دروازه‌بان‌های ثابت)/g, '<span class="gk-line">✅ $1</span>');
+
+    textOutput.innerHTML = safe;
+    textOutputPanel.classList.add('active');
+    setTimeout(function() {
+      textOutputPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+  }
+
+  copyBtn.addEventListener('click', function() {
+    var plain = textOutput.textContent;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(plain).then(function() { showToast('متن کپی شد ✅'); })
+        .catch(function() { fallbackCopy(plain); });
+    } else { fallbackCopy(plain); }
+  });
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.top = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast('متن کپی شد ✅'); }
+    catch (e) { showToast('کپی نشد', true); }
+    document.body.removeChild(ta);
+  }
+
+  /* ============ SETTINGS ============ */
+  var countBtns = document.querySelectorAll('.count-btn[data-count]');
+  for (var cb = 0; cb < countBtns.length; cb++) {
+    (function(btn) {
+      btn.addEventListener('click', function() {
+        var all = document.querySelectorAll('.count-btn[data-count]');
+        for (var a = 0; a < all.length; a++) all[a].classList.remove('active');
+        btn.classList.add('active');
+        teamsCount = parseInt(btn.dataset.count);
+      });
+    })(countBtns[cb]);
+  }
+
+  var sizeBtns = document.querySelectorAll('.count-btn[data-size]');
+  for (var sz = 0; sz < sizeBtns.length; sz++) {
+    (function(btn) {
+      btn.addEventListener('click', function() {
+        var all = document.querySelectorAll('.count-btn[data-size]');
+        for (var a = 0; a < all.length; a++) all[a].classList.remove('active');
+        btn.classList.add('active');
+        teamSize = parseInt(btn.dataset.size);
+      });
+    })(sizeBtns[sz]);
+  }
+
+  var modeBtns = document.querySelectorAll('.mode-btn');
+  for (var mb = 0; mb < modeBtns.length; mb++) {
+    (function(btn) {
+      btn.addEventListener('click', function() {
+        var all = document.querySelectorAll('.mode-btn');
+        for (var a = 0; a < all.length; a++) all[a].classList.remove('active');
+        btn.classList.add('active');
+        drawMode = btn.dataset.mode;
+      });
+    })(modeBtns[mb]);
+  }
+
+  $('drawBtn').addEventListener('click', drawTeams);
+  document.addEventListener('dragover', function(e) { e.preventDefault(); });
+
+  /* ============ INIT ============ */
+  namesInput.focus();
+</script>
+
+</body>
+</html>
